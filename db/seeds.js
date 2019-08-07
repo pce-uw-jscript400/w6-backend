@@ -19,6 +19,17 @@ const reset = async () => {
           emotion: 'joy'
         }
       ]
+    },
+    {
+      name: 'Admin User',
+      username: 'admin.user',
+      password: bcrypt.hashSync('password', 10),
+      posts: [
+        {
+          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam gravida tincidunt tellus, vel vehicula turpis euismod a. Nulla lobortis mi nec sagittis hendrerit. Sed ultrices metus ut eros interdum, vel blandit mi lacinia.',
+          emotion: 'Happiness'
+        }
+      ]
     }
   ])
 }

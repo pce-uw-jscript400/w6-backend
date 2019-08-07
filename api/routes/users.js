@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const User = require('../models/user')
+const Post = require('../models/post')
 const { isLoggedIn, isSameUser } = require('../middleware/auth')
 const { validate } = require('../middleware/users')
 
@@ -33,6 +34,19 @@ router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
   const response = await User.findOneAndDelete(query, req.body).select(excludeKeys)
 
   res.json({ status, response })
+})
+
+router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 200
+
+  const query = { _id: req.params.userId}
+  const user = await User.findOne(query, req.body).select(excludeKeys)
+  console.log(user)
+  const post = user.posts.id(req.params.postId)
+  post.remove()
+  await user.save()
+
+  res.json({ status, response: post })
 })
 
 module.exports = router
