@@ -15,7 +15,7 @@
     ],
     "env": {
     "CLIENT_BASE_URL": "https://w6-frontend.katrinaguyduy.now.sh",
-    "MONGO_DB_CONNECTION": "mongodb+srv://katrina-mongodb:katrina-mongodb@general-purpose-lr6kd.mongodb.net/journal_dev?retryWrites=true&w=majority",
+    "MONGO_DB_CONNECTION": "",
     "NODE_ENV": "production",
     "SECRET_KEY": "MYSECRETKEY"
     }
