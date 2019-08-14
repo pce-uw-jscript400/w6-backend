@@ -1,5 +1,6 @@
 {
   "env": {
+    "CLIENT_BASE_URL": "http://localhost:5000",
     "MONGO_DB_CONNECTION": "",
     "NODE_ENV": "development",
     "PORT": 5000,
