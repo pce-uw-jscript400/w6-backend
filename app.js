@@ -12,6 +12,12 @@ app.use(require('body-parser').json())
 // Attach token to request
 app.use(require('./api/middleware/set-token'))
 
+// CORS Access - needs to come before routes!
+app.use(require('cors')({ 
+  origin: 'http://localhost:3000', 
+  optionsSuccessStatus: 200
+ }))
+
 // Routes
 app.use('/api', require('./api/routes/auth'))
 app.use('/api/users', require('./api/routes/users'))
