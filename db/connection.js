@@ -10,7 +10,7 @@ const connectToDB = () => {
     mongoose.connect(MONGO_DB_CONNECTION, options)
     console.log('Connected to database...')
   } catch (e) {
-    console.error(e.message)
+    console.error(e)
   }
 }
 
