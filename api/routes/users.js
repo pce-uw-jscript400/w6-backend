@@ -3,6 +3,8 @@ const User = require('../models/user')
 const { isLoggedIn, isSameUser } = require('../middleware/auth')
 const { validate } = require('../middleware/users')
 
+
+
 const excludeKeys = '-__v -password'
 
 router.get('/', isLoggedIn, async (req, res, next) => {
@@ -19,12 +21,25 @@ router.get('/:userId', isLoggedIn, async (req, res, next) => {
 
 router.put('/:userId', isLoggedIn, isSameUser, validate, async (req, res, next) => {
   const status = 200
+  console.log(req.params.userId)
   const query = { _id: req.params.userId }
   const options = { new: true }
   const response = await User.findOneAndUpdate(query, req.body, options).select(excludeKeys)
 
   res.json({ status, response })
 })
+
+
+// router.patch('/:userId', isLoggedIn, isSameUser, validate, async (req, res, next) => {
+//   const status = 200
+//   console.log(req.params.userId)
+//   const query = { _id: req.params.userId }
+//   const options = { new: true }
+//   const response = await User.findOneAndUpdate(query, req.body, options).select(excludeKeys)
+//
+//   res.json({ status, response })
+// })
+
 
 router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
   const status = 200
@@ -34,5 +49,23 @@ router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
 
   res.json({ status, response })
 })
+
+
+router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 200
+
+  const query = { _id: req.params.userId }
+  const user = await User.findOne(query)
+  console.log(user)
+  const post = user.posts.id(req.params.postId)
+
+  post.remove()
+  await user.save()
+
+  res.json({ status, response: post })
+})
+
+
+
 
 module.exports = router

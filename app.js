@@ -1,6 +1,9 @@
-const { NODE_ENV, PORT } = process.env
+const { CLIENT_BASE_URL, NODE_ENV, PORT } = process.env
 const express = require('express')
 const app = express()
+// const cors = require('cors')
+
+
 
 // Database Connection
 require('./db/connection')()
@@ -12,9 +15,18 @@ app.use(require('body-parser').json())
 // Attach token to request
 app.use(require('./api/middleware/set-token'))
 
+
+app.use(require('cors')({
+  origin: CLIENT_BASE_URL,
+  optionSuccessStatus:200
+}))
+
 // Routes
 app.use('/api', require('./api/routes/auth'))
 app.use('/api/users', require('./api/routes/users'))
+//This line was pulled from the solutions branch
+app.use('/api/users/:userId/posts', require('./api/routes/posts'))
+
 
 // Not Found Handler
 app.use((req, res, next) => {
