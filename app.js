@@ -10,9 +10,10 @@ require('./db/connection')()
 if (NODE_ENV === 'development') app.use(require('morgan')('dev'))
 app.use(require('body-parser').json())
 
+console.log(CLIENT_BASE_URL)
 // Set up CORS
 app.use(cors({
-  origin: CLIENT_BASE_URL,
+  origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }))
 

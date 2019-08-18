@@ -49,6 +49,20 @@ router.post('/:userId/posts', isLoggedIn, isSameUser, async (req, res, next) => 
   res.json({ status, response: newPost })
 })
 
+router.patch('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 200
+
+  const query = { _id: req.params.userId }
+  const user = await User.findOne(query)
+  const post = user.posts.id(req.params.postId)
+  
+  post.set(req.body)
+  post.isNew
+  await user.save()
+  
+  res.json({ status, response: post })
+})
+
 router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
   const status = 200
 
