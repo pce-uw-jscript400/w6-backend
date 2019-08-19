@@ -49,4 +49,16 @@ router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res,
   res.json({ status, response: post })
 })
 
+router.post('/:userId/posts/new', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 201
+
+  const query = { _id: req.params.userId}
+  const user = await User.findOne(query)
+  const post = {...req.body}
+  console.log(user)
+  user.posts.push(post)
+  await user.save()
+  res.json({ status, response: post })
+})
+
 module.exports = router
