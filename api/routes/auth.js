@@ -32,9 +32,10 @@ router.post('/login', async (req, res, next) => {
   }
 
   const message = `Username or password incorrect. Please check credentials and try again.`
-  const error = Error(message)
+  const error = new Error(message)
   error.status = 401
-  next(error)
+  return res.status(error.status).send({status:error.status, message:error.message})
+  //next(error)
 })
 
 router.post('/signup', async (req, res, next) => {
