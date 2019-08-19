@@ -1,10 +1,10 @@
-const { NODE_ENV, PORT } = process.env
+const { CLIENT_BASE_URL, NODE_ENV, PORT } = process.env
 const express = require('express')
 const app = express()
 
 // Enable requests from localhost
 app.use(require('cors')({
-  origin: 'http://localhost:3000',
+  origin: CLIENT_BASE_URL,
   optionsSuccessStatus: 200
 }))
 
