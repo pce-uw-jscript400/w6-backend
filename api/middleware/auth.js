@@ -9,6 +9,7 @@ const isLoggedIn = (req, _res, next) => {
 
   try {
     decodeToken(req.token)
+    console.log(req.token)
     next()
   } catch (e) {
     console.error(e)
