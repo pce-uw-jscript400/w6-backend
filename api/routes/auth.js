@@ -25,7 +25,7 @@ router.post('/login', async (req, res, next) => {
     const valid = await bcrypt.compare(password, user.password)
     if (valid) {
       const status = 200
-      const response = 'You have successful logged in.'
+      const response = 'You have successfully logged in.'
       const token = generateToken(user._id)
       return res.status(status).json({ status, response, token })
     }
@@ -46,14 +46,14 @@ router.post('/signup', async (req, res, next) => {
   if (alreadyExists) {
     const error = new Error(`Username '${username}' is already taken.`)
     error.status = 400
-
+    res.json({status: error.status, message: error.message})
     return next(error)
+  } else{
+    const status = 201
+    const user = await User.create({ username, password: hashed })
+    const token = generateToken(user._id)
+    res.status(status).json({ status, token })
   }
-
-  const status = 201
-  const user = await User.create({ username, password: hashed })
-  const token = generateToken(user._id)
-  res.status(status).json({ status, token })
 })
 
 module.exports = router
