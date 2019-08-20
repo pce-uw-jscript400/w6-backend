@@ -4,7 +4,7 @@ const app = express()
 
 // Enable requests from localhost
 app.use(require('cors')({
-  origin: CLIENT_BASE_URL,
+  origin: 'http://localhost:3000',
   optionsSuccessStatus: 200
 }))
 
