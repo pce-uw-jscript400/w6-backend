@@ -51,11 +51,16 @@ router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res,
 
 router.post('/:userId/posts/new', isLoggedIn, isSameUser, async (req, res, next) => {
   const status = 201
-
+  if (req.body.content == '') {
+    const message = "Your post must contain content. Please fill out your post and try again."
+    const error = new Error(message)
+    error.status = 400
+    return next(error)
+  }
   const query = { _id: req.params.userId}
   const user = await User.findOne(query)
   const post = {...req.body}
-  console.log(user)
+  
   user.posts.push(post)
   await user.save()
   res.json({ status, response: post })
