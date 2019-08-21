@@ -82,5 +82,25 @@ router.put('/:userId/edit', isLoggedIn, isSameUser, async (req, res, next) => {
 
 })
 
+//Create a new frontend route at `/users/<userId>/posts/<postId>` that shows a single post.
+//Update your Create and Edit forms to redirect here instead of to the general `/posts` page.
+router.get('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
+  try{
+    const status = 200
+    const query = { _id: req.params.userId }
+    const postId = { _id: req.params.postId}
+    const user =  await User.findOne(query)
+    const response = user.posts.id(postId)
+
+    res.json({ status, response })
+  }catch (err){
+    console.log(`My Error: ${err}`)
+    const error = new Error(err.message)
+    error.status = 400
+    next(error)
+  }
+
+})
+
 
 module.exports = router
