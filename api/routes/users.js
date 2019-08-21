@@ -5,7 +5,7 @@ const { validate } = require('../middleware/users')
 
 const excludeKeys = '-__v -password'
 
-router.get('/', isLoggedIn, async (req, res, next) => {
+router.get('/',  isLoggedIn, async (req, res, next) => {
   const status = 200
   const response = await User.find(req.query).select(excludeKeys)
   res.json({ status, response })
@@ -33,6 +33,14 @@ router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
   const response = await User.findOneAndDelete(query, req.body).select(excludeKeys)
 
   res.json({ status, response })
+})
+
+router.put('/:userId/edit', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 200
+  const query = { _id: req.params.userId }
+  const options = { new: true }
+  const response = await User.findOneAndUpdate(query, req.body, options).select(excludeKeys)
+  res.status(status).json({ status, response })
 })
 
 module.exports = router
