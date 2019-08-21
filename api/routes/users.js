@@ -35,4 +35,40 @@ router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
   res.json({ status, response })
 })
 
+router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 200
+
+  const { userId, postId } = req.params 
+  const user = await User.findById(userId).select(excludeKeys)
+
+  user.posts.id(postId).remove()
+  const response = await user.save()
+
+  res.json({ status, response })
+})
+
+router.post('/:userId/posts', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 200
+
+  const { userId } = req.params 
+  const user = await User.findById(userId).select(excludeKeys)
+
+  user.posts.push(req.body)
+  const response = await user.save()
+
+  res.json({ status, response })
+})
+
+router.put('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 200
+
+  const { userId, postId } = req.params 
+  const user = await User.findById(userId).select(excludeKeys)
+  const post = user.posts.id(postId)
+  Object.assign(post, req.body)
+  const response = await user.save()
+
+  res.json({ status, response })
+})
+
 module.exports = router
