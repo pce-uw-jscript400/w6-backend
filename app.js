@@ -1,6 +1,14 @@
 const { NODE_ENV, PORT } = process.env
 const express = require('express')
 const app = express()
+var cors = require('cors')
+
+
+//Set up cors options
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 // Database Connection
 require('./db/connection')()
@@ -11,6 +19,9 @@ app.use(require('body-parser').json())
 
 // Attach token to request
 app.use(require('./api/middleware/set-token'))
+
+//Enable cors
+app.use(cors(corsOptions))
 
 // Routes
 app.use('/api', require('./api/routes/auth'))
