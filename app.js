@@ -1,4 +1,4 @@
-const { NODE_ENV, PORT } = process.env
+const { CLIENT_BASE_URL, NODE_ENV, PORT } = process.env
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -8,7 +8,7 @@ require('./db/connection')()
 
 // Application-level Middleware
 var corsOptions = {
-        origin: 'http://localhost:3000',
+        origin: CLIENT_BASE_URL,
         optionsSuccessStatus: 200
     }
     // Attach token to request

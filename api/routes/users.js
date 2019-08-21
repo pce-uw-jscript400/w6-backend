@@ -5,34 +5,57 @@ const { validate } = require('../middleware/users')
 
 const excludeKeys = '-__v -password'
 
-router.get('/', isLoggedIn, async (req, res, next) => {
-  const status = 200
-  const response = await User.find(req.query).select(excludeKeys)
-  res.json({ status, response })
+router.get('/', isLoggedIn, async(req, res, next) => {
+    const status = 200
+    const response = await User.find(req.query).select(excludeKeys)
+    res.json({ status, response })
 })
 
-router.get('/:userId', isLoggedIn, async (req, res, next) => {
-  const status = 200
-  const response = await User.findById(req.params.userId).select(excludeKeys)
-  res.json({ status, response })
+router.get('/:userId', isLoggedIn, async(req, res, next) => {
+    const status = 200
+    const response = await User.findById(req.params.userId).select(excludeKeys)
+    res.json({ status, response })
 })
 
-router.put('/:userId', isLoggedIn, isSameUser, validate, async (req, res, next) => {
-  const status = 200
-  const query = { _id: req.params.userId }
-  const options = { new: true }
-  const response = await User.findOneAndUpdate(query, req.body, options).select(excludeKeys)
+router.put('/:userId', isLoggedIn, isSameUser, validate, async(req, res, next) => {
+    const status = 200
+    const query = { _id: req.params.userId }
+    const options = { new: true }
+    const response = await User.findOneAndUpdate(query, req.body, options).select(excludeKeys)
 
-  res.json({ status, response })
+    res.json({ status, response })
 })
 
-router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
-  const status = 200
+router.delete('/:userId', isLoggedIn, isSameUser, async(req, res, next) => {
+    const status = 200
 
-  const query = { _id: req.params.userId }
-  const response = await User.findOneAndDelete(query, req.body).select(excludeKeys)
+    const query = { _id: req.params.userId }
+    const response = await User.findOneAndDelete(query, req.body).select(excludeKeys)
 
-  res.json({ status, response })
+    res.json({ status, response })
 })
+router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async(req, res, next) => {
+    const status = 200
+    console.log('BALEETED')
+    const query = { _id: req.params.userId }
+    const user = await User.findOne(query)
+    console.log(user.posts)
+        // const post = user.posts.findOne(req.params.postId)
+    const postQuery = { _id: req.params.userId }
+    const post = user.posts.id(req.params.postId)
+    post.remove()
+
+    await user.save()
+    res.json({ status, response: post })
+})
+
+router.post('/:userId/posts/:postId', isLoggedIn, isSameUser, async(req, res, next) => {
+    const status = 200
+    console.log('Created!')
+    const query = { _id: req.params.userId }
+    const user = await User.findOne(query)
+
+})
+
 
 module.exports = router

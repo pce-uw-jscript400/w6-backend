@@ -26,6 +26,7 @@ router.post('/login', async(req, res, next) => {
         if (valid) {
             const status = 200
             const response = 'You have successful logged in.'
+            console.log(user._id)
             const token = generateToken(user._id)
             return res.status(status).json({ status, response, token })
         }
