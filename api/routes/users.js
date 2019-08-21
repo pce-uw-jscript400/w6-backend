@@ -35,4 +35,20 @@ router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
   res.json({ status, response })
 })
 
+// DELETE Posting` route with the path of DELETE /users/:userId/posts/:postId
+// This request should only be able to be made 
+// if that user is logged in and it's that user's post.
+router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
+  const status = 200
+  const query = { _id: req.params.userId }
+  const user = await User.findOne(query)
+  const post = user.posts.id(req.params.postId)
+  // find(post => post._id.toString() === req.params.postId
+  post.remove()
+  await user.save()
+  // comment out?
+  res.json({ status, response: post })
+})
+  
+
 module.exports = router
