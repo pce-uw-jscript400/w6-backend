@@ -6,7 +6,7 @@ This repository contains the backend for the `w6-frontend` repository.
 
 ## Installation
 
-1. Clone this repository
+1. Fork & Clone this repository
 
 1. `cp nodemon.sample.json nodemon.json`
 
