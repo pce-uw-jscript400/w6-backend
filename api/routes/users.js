@@ -35,9 +35,7 @@ router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
   res.json({ status, response })
 })
 
-// isLoggedIn, isSameUser,
-
-router.put('/:userId/edit', async (req, res, next) => {
+router.put('/:userId/edit', isLoggedIn, isSameUser, async (req, res, next) => {
   const status = 200
   const query = { _id: req.params.userId }
   const options = { new: true }
