@@ -1,6 +1,12 @@
-const { NODE_ENV, PORT } = process.env
+const { CLIENT_BASE_URL, NODE_ENV, PORT } = process.env
 const express = require('express')
 const app = express()
+
+// CORS
+app.use(require('cors')({
+  origin: CLIENT_BASE_URL,
+  optionsSuccessStatus: 200
+}))
 
 // Database Connection
 require('./db/connection')()
