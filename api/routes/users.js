@@ -52,17 +52,21 @@ router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
 
 // POST /users/:userId/posts
 
-router.post('/:userId/posts/', isLoggedIn, isSameUser, async (req, res, next) => {
+router.post('/:userId/posts/', isLoggedIn, async (req, res, next) => {
   const status = 201
-  Post.create(req.body).then(response => {
-    console.log(response)
-    res.status(201).json({ status })
-  }).catch(error => {
-    console.error(error)
-    const err = new Error('Something went wrong')
-    err.status = 400
-    next(err)
-  })
+  const query = { _id: req.params.userId }
+  const response = "success"
+  res.json({ status, response })
+
+  // Post.create(req.body).then(response => {
+  //   console.log(response)
+  //   res.status(201).json({ status })
+  // }).catch(error => {
+  //   console.error(error)
+  //   const err = new Error('Something went wrong')
+  //   err.status = 400
+  //   next(err)
+  // })
 })
 
 module.exports = router
