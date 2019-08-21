@@ -18,12 +18,18 @@ router.get('/:userId', isLoggedIn, async (req, res, next) => {
 })
 
 router.put('/:userId', isLoggedIn, isSameUser, validate, async (req, res, next) => {
+  console.log(req.body)
   const status = 200
   const query = { _id: req.params.userId }
   const options = { new: true }
-  const response = await User.findOneAndUpdate(query, req.body, options).select(excludeKeys)
+  //const response = await User.findOneAndUpdate(query, req.body, options).select(excludeKeys)
+  const user = await User.findOne(query)
+  user.name = JSON.stringify(req.body.name)
+  console.log(user.name)
 
-  res.json({ status, response })
+  await user.save()
+
+  res.json({ status, user })
 })
 
 router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
