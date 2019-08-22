@@ -17,7 +17,7 @@ router.post('/', isLoggedIn, isSameUser, async (req, res, next) => {
     res.status(status).json({status, response: post})
 })
 
-router.put('/', isLoggedIn, isSameUser, async (req, res, next) => {
+router.put('/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
     const status = 200
 
     const { postId, userId } = req.params
