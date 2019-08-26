@@ -21,6 +21,9 @@ router.get('/profile', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   const { username, password } = req.body
   const user = await User.findOne({ username })
+  if (!user){
+    const status = 404
+  }
   if (user) {
     const valid = await bcrypt.compare(password, user.password)
     if (valid) {
