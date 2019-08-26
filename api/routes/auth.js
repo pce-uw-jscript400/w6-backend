@@ -3,11 +3,11 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const { decodeToken, generateToken } = require('../lib/token')
 
+
 router.get('/profile', async (req, res, next) => {
   try {
     const payload = decodeToken(req.token)
     const user = await User.findOne({ _id: payload.id }).select('-__v -password')
-
     const status = 200
     res.json({ status, user })
   } catch (e) {
@@ -21,14 +21,14 @@ router.get('/profile', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   const { username, password } = req.body
   const user = await User.findOne({ username })
-  if (user) {
+  if (user) { 
     const valid = await bcrypt.compare(password, user.password)
     if (valid) {
       const status = 200
       const response = 'You have successful logged in.'
       const token = generateToken(user._id)
       return res.status(status).json({ status, response, token })
-    }
+    }  
   }
 
   const message = `Username or password incorrect. Please check credentials and try again.`
