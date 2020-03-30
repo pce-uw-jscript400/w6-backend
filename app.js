@@ -1,7 +1,11 @@
 const { CLIENT_BASE_URL, NODE_ENV, PORT } = process.env
 const express = require('express')
+
+
 const app = express()
 // const cors = require('cors')
+
+
 
 
 
@@ -20,6 +24,7 @@ app.use(require('cors')({
   origin: CLIENT_BASE_URL,
   optionSuccessStatus:200
 }))
+
 
 // Routes
 app.use('/api', require('./api/routes/auth'))

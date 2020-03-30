@@ -3,8 +3,6 @@ const User = require('../models/user')
 const { isLoggedIn, isSameUser } = require('../middleware/auth')
 const { validate } = require('../middleware/users')
 
-
-
 const excludeKeys = '-__v -password'
 
 router.get('/', isLoggedIn, async (req, res, next) => {
@@ -50,7 +48,6 @@ router.delete('/:userId', isLoggedIn, isSameUser, async (req, res, next) => {
   res.json({ status, response })
 })
 
-
 router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res, next) => {
   const status = 200
 
@@ -64,8 +61,5 @@ router.delete('/:userId/posts/:postId', isLoggedIn, isSameUser, async (req, res,
 
   res.json({ status, response: post })
 })
-
-
-
 
 module.exports = router
